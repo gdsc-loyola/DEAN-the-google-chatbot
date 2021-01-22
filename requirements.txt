@@ -16,4 +16,4 @@ lxml==4.6.2
 requests==2.23.0
 requests-oauthlib==1.3.0
 requests-toolbelt==0.9.1
-gunicorn==20.0.4
+gunicorn==19.9.0
