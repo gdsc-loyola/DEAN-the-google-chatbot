@@ -1,0 +1,8 @@
+bs4==0.0.1
+python-dotenv==0.15.0
+Flask==0.12.2
+google==3.0.0
+backports.functools-lru-cache==1.6.1
+json5==0.9.4                                 
+lxml==4.6.2
+requests==2.23.0 
