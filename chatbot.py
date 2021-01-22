@@ -17,8 +17,8 @@ import time
 load_dotenv()
 
 app = Flask(__name__)
-ACCESS_TOKEN = os.getenv('PAGE_ACCESS_TOKEN')
-VERIFY_TOKEN = os.getenv('VERIFY_TOKEN')
+ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
+VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 headers = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 articles = ''
