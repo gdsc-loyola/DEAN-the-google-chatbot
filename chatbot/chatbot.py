@@ -195,9 +195,9 @@ def receive_message():
                             else:
                                 send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                         else:
-                            send_message(recipient_id,"Hi! I'm Sagot. I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.")
+                            send_message(recipient_id,"Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.")
                             sleep(3)
-                            send_message(recipient_id, "If you want to get started, just ask me a question! Make sure you write 'search' before your query.")
+                            send_message(recipient_id, "If you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!")
                             sleep(3)
                             send_message(recipient_id, "I hope that you continue to stay safe! :)")
                 #If user clicked one of the postback buttons
