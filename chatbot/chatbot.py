@@ -214,7 +214,7 @@ def receive_message():
                                                 "payload":choice
                                             }
                                         ]
-                            print(articles[choice]['article'][0])
+                            print(articles[choice]['article'])
                             button_message(recipient_id,articles[choice]['article'][0],buttons)
                             if len(articles[choice]['article']) == 1:
                                 send_message(recipient_id,articles[choice]['article'][0])
