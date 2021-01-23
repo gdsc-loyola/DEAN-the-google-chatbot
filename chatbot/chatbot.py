@@ -178,6 +178,7 @@ def receive_message():
                         #If the person wants to search something
                         if string[0].lower() == 'search':
                             send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
+                            articles = ''
                             articles = push(links(string[1]))
                             if articles:
                                 for i in range(len(articles)):
