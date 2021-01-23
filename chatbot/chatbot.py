@@ -176,30 +176,31 @@ def receive_message():
                         string = message['message'].get('text').lstrip().split(' ',1)
                         
                         #If the person wants to search something
-                        if string[0].lower() == 'search':
-                            send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
-                            articles = ''
-                            articles = push(links(string[1]))
-                            if articles:
-                                print(articles)
-                                for i in range(len(articles)):
+                        # if string[0].lower() == 'search':
+                        #     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
+                        #     articles = ''
+                        #     articles = push(links(string[1]))
+                        #     if articles:
+                        #         print(articles)
+                        #         for i in range(len(articles)):
                                     
-                                    #Send a button allowing them to read more of the article
-                                    buttons = [
-                                                    {
-                                                        "type":"postback",
-                                                        "title":"Read",
-                                                        "payload": i
-                                                    }
-                                                ]
-                                    #Send the title and summary of the article
-                                    button_message(recipient_id,articles[i]['title'][0:600],buttons)
-                            else:
-                                send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
-                        else:
-                            send_message(recipient_id,"Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
-                            #sleep(3)
-                            #send_message(recipient_id, "If you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!")
+                        #             #Send a button allowing them to read more of the article
+                        #             buttons = [
+                        #                             {
+                        #                                 "type":"postback",
+                        #                                 "title":"Read",
+                        #                                 "payload": i
+                        #                             }
+                        #                         ]
+                        #             #Send the title and summary of the article
+                        #             button_message(recipient_id,articles[i]['title'][0:600],buttons)
+                        #     else:
+                        #         send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
+                        # else:
+                        #indent this when top is uncommented
+                        send_message(recipient_id,"Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
+                        sleep(3)
+                        send_message(recipient_id, "Thank you for your interest in me! Due to an influx in responses, I'll be taking a short break for now. See you again tomorrow!")
                             #sleep(3)
                             #send_message(recipient_id, "I hope that you continue to stay safe! :)")
                 #If user clicked one of the postback buttons
