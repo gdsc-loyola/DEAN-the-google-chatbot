@@ -224,6 +224,7 @@ def receive_message():
                     #retrieve choice from postback
                     choice = int(message['postback']['payload'])
                     df[recipient_id] = articles
+                    df[recipient_id][0] = choice
                     if message['postback']['title'] == 'Read':
                         print('DF Keys Read: ',df.keys())
                         #dictionary for buttons
