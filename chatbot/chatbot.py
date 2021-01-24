@@ -170,7 +170,7 @@ def receive_message():
             messaging = event['messaging']
             for message in messaging:
                 #Facebook Messenger ID for user so we know where to send response back to
-                recipient_id = message['sender']['id']
+                recipient_id = str(message['sender']['id'])
 
                 #If user sent a message
                 if message.get('message'):
@@ -247,7 +247,7 @@ def receive_message():
                                                 "payload":choice
                                             }
                                         ]
-                            print(df[recipient_id][choice][article])
+                            print(df[recipient_id][choice]['article'])
                             if len(df[recipient_id][choice]['article']) == 1:
                                 send_message(recipient_id, df[recipient_id][choice]['article'][0])
                                 df[recipient_id][choice]['article'] = "End"
