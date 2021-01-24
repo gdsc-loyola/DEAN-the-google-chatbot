@@ -235,14 +235,14 @@ def receive_message():
                                 ]
                     #send button message
                     if len(df[recipient_id][choice]['article']) == 1:
-                        send_message(recipient_id,df[recipient_id][choice]['article'][0])
-                        df[recipient_id][choice]['article'] = "End"
+                        send_message(recipient_id,df[recipient_id][0][choice][0]['article'][0])
+                        df[recipient_id][0][choice][0]['article'] = "End"
                         send_message(recipient_id,"End of Article")
-                    elif df[recipient_id][choice]['article'] == "End":
+                    elif df[recipient_id][0][choice][0]['article'] == "End":
                         send_message(recipient_id,"End of Article")
                     else:
-                        button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
-                        df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        button_message(recipient_id,df[recipient_id][0][choice][0]['article'][0],buttons)
+                        df[recipient_id][0][choice][0]['article'] = df[recipient_id][0][choice][0]['article'][1:]
                     return "Messaged Processed"
                 #If user wants to read more of the article
                 elif message['postback']['title'] == 'Read more':
