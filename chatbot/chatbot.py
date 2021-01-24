@@ -247,7 +247,7 @@ def receive_message():
                                                 "payload":choice
                                             }
                                         ]
-                            print(df[recipient_id][choice]['article'])
+                            print(df.keys())
                             if len(df[recipient_id][choice]['article']) == 1:
                                 send_message(recipient_id, df[recipient_id][choice]['article'][0])
                                 df[recipient_id][choice]['article'] = "End"
