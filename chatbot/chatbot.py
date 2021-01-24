@@ -162,7 +162,7 @@ def receive_message():
     else:
         # get whatever message a user sent the bot
         output = request.get_json()
-        message = output['entry']['messaging']
+        message = output['entry'][-1]['messaging'][-1]
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
 
