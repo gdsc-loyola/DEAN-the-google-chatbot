@@ -181,8 +181,8 @@ def receive_message():
                         if string[0].lower() == 'search' and len(string) >= 2:
                             send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                             articles = push(links(string[1]))
-                            articles.insert(0,1)
                             if articles:
+                                articles.insert(0,1)
                                 df[recipient_id] = articles
                                 for i in range(1,len(articles)):
                                     
@@ -191,11 +191,12 @@ def receive_message():
                                                     {
                                                         "type":"postback",
                                                         "title":"Read",
-                                                        "payload": i + 1
+                                                        "payload": i
                                                     }
                                                 ]
                                     #Send the title and summary of the article
                                     button_message(recipient_id,articles[i]['title'][0:500],buttons)
+                                    print(df)
                             else:
                                 send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                         #If the person mistakenly just said search
@@ -229,7 +230,6 @@ def receive_message():
                                             }
                                         ]
                             #send button message
-                            print(df[recipient_id])
                             if len(df[recipient_id][choice]['article']) == 1:
                                 send_message(recipient_id,df[recipient_id][choice]['article'][0])
                                 df[recipient_id][choice]['article'] = "End"
