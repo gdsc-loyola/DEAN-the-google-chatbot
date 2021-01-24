@@ -150,8 +150,6 @@ def push(results:list):
 def receive_message():
 
     #remember list of articles and what are article the user is reading
-    global df
-    global articles
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -218,7 +216,7 @@ def receive_message():
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
             print(df)
-            df[recipient_id] = articles
+
             if message['postback'].get('title'):
                 #If user wants to read a specific article
                 #update df with new choice
