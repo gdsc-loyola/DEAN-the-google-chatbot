@@ -162,7 +162,8 @@ def receive_message():
     else:
         # get whatever message a user sent the bot
         output = request.get_json()
-        for event in output['entry']:   
+        print(output)
+        for event in output['entry']:
             messaging = event['messaging']
             for message in messaging:
                 #Facebook Messenger ID for user so we know where to send response back to
@@ -209,15 +210,17 @@ def receive_message():
                         pass
                 #If user clicked one of the postback buttons
                 elif message.get('postback'):
+                    print('DF Keys Existing: ',df.keys())
+                    print(df)
                     if message['postback'].get('title'):
                         #If user wants to read a specific article
                         #update df with new choice
-                        print(df.keys())
                         if df.get(recipient_id):
                             #retrieve choice from postback
                             choice = int(message['postback']['payload'])
                             df[recipient_id][0] = choice
                             if message['postback']['title'] == 'Read':
+                                print('DF Keys Read: ',df.keys())
                                 #dictionary for buttons
                                 buttons = [
                                                 {
@@ -245,7 +248,7 @@ def receive_message():
                                                     "payload":choice
                                                 }
                                             ]
-                                print(df.keys())
+                                print('Read More Keys: ',df.keys())
                                 if len(df[recipient_id][choice]['article']) == 1:
                                     send_message(recipient_id, df[recipient_id][choice]['article'][0])
                                     df[recipient_id][choice]['article'] = "End"
