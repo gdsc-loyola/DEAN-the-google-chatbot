@@ -151,6 +151,7 @@ def receive_message():
 
     #remember list of articles and what are article the user is reading
     global df
+    global choice 
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -165,7 +166,7 @@ def receive_message():
         print(output)
         # for event in output['entry']:
         #added to remove for loops
-        message = output['entry'][0]['messaging'][0]
+        message = output['entry'][-1]['messaging'][-1]
             # for message in messaging:
         #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
