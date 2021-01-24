@@ -56,13 +56,13 @@ def timeout(seconds_before_timeout):
         return wrapper
     return deco
 
-@timeout(5)
+@timeout(15)
 def get_request(url):
     """
     Gets the website and scrapes it using BeautifulSoup
     """
     try:
-        page = requests.get(url, headers = headers,timeout=5)
+        page = requests.get(url, headers = headers,timeout=10)
         if page.status_code != 200:
         #Page not loaded, go to the next URL
             return
