@@ -172,7 +172,7 @@ def receive_message():
         recipient_id = str(message['sender']['id'])
 
         #If user sent a message
-        if message.get('message'):
+        if message.request.get('message'):
             if message['message'].get('text'):
                 string = message['message'].get('text').lstrip().split(' ',1)
                 
@@ -214,7 +214,7 @@ def receive_message():
                 pass
                 return "Messaged Processed"
         #If user clicked one of the postback buttons
-        elif message.get('postback'):
+        elif message.request.get('postback'):
             print('DF Keys Existing: ',df.keys())
             print(df)
             if message['postback'].get('title'):
@@ -223,6 +223,9 @@ def receive_message():
                 if df.get(recipient_id):
                     #retrieve choice from postback
                     choice = int(message['postback']['payload'])
+                    recipient_id = str(message['sender']['id'])
+                    df[recipient_id] = articles
+                    df[recipient_id][0] = choice
                     if message['postback']['title'] == 'Read':
                         print('DF Keys Read: ',df.keys())
                         #dictionary for buttons
