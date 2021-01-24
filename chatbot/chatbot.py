@@ -150,8 +150,7 @@ def push(results:list):
 def receive_message():
 
     #remember list of articles and what are article the user is reading
-    global df
-    global choice 
+    global df 
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -166,7 +165,7 @@ def receive_message():
         print(output)
         # for event in output['entry']:
         #added to remove for loops
-        message = output['entry'][-1]['messaging'][-1]
+        message = output['entry'][0]['messaging'][0]
             # for message in messaging:
         #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
@@ -224,7 +223,6 @@ def receive_message():
                 if df.get(recipient_id):
                     #retrieve choice from postback
                     choice = int(message['postback']['payload'])
-                    df[recipient_id][0] = choice
                     if message['postback']['title'] == 'Read':
                         print('DF Keys Read: ',df.keys())
                         #dictionary for buttons
