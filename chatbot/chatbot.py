@@ -22,8 +22,6 @@ VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 headers = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 df = {}
-articles = ''
-choice = ''
     
 number_of_results = 5 #Number of searches to send
 count = 80 #Word count per message
@@ -153,8 +151,6 @@ def receive_message():
 
     #remember list of articles and what are article the user is reading
     global df
-    global articles
-    global choice
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
