@@ -198,6 +198,7 @@ def receive_message():
                     else:
                         send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                 #If the person mistakenly just said search
+                    return "Messaged Processed"
                 elif string[0].lower() == 'search' and len(string) == 1:
                     send_message(recipient_id, "Hi there! Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
                     #TELL THEM THAT 
@@ -205,11 +206,13 @@ def receive_message():
                 else:
                     #indent this when top is uncommented
                     send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
+                return "Messaged Processed"
             #MIGHT BE IN THE WRONG PLACE!
             #if user sends us a GIF, photo,video, or any other non-text item
             if message['message'].get('attachments'):
                 #FUTURE DEVELOPMENT THINGOS
                 pass
+                return "Messaged Processed"
         #If user clicked one of the postback buttons
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
@@ -241,6 +244,7 @@ def receive_message():
                         else:
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        return "Messaged Processed"
                     #If user wants to read more of the article
                     elif message['postback']['title'] == 'Read more':
                         buttons = [
@@ -260,12 +264,14 @@ def receive_message():
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        return "Messaged Processed"
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
                     send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
                     send_message(recipient_id, "Thank you for your interest in me! Due to an influx in responses, I'll be taking a short break for now. See you again tomorrow!")
                 else:
                     send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
+                return "Messaged Processed"
         else:
             #how does this get triggered
             pass
