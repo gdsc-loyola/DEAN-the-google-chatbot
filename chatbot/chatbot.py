@@ -163,7 +163,12 @@ def receive_message():
     else:
         # get whatever message a user sent the bot
         output = request.get_json()
-        message = output['entry'][-1]['messaging'][-1]
+        print(output)
+        # for event in output['entry']:
+        #added to remove for loops
+        message = output['entry'][0]['messaging'][0]
+            # for message in messaging:
+        #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
 
@@ -171,7 +176,7 @@ def receive_message():
         if message.get('message'):
             if message['message'].get('text'):
                 string = message['message'].get('text').lstrip().split(' ',1)
-                        
+                
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
@@ -180,7 +185,7 @@ def receive_message():
                         articles.insert(0,1)
                         df[recipient_id] = articles
                         for i in range(1,len(articles)):
-                                    
+                            
                             #Send a button allowing them to read more of the article
                             buttons = [
                                             {
@@ -208,17 +213,17 @@ def receive_message():
                 pass
         #If user clicked one of the postback buttons
         elif message.get('postback'):
+            print('DF Keys Existing: ',df.keys())
+            print(df)
             if message['postback'].get('title'):
                 #If user wants to read a specific article
+                #update df with new choice
                 if df.get(recipient_id):
+                    #retrieve choice from postback
+                    choice = int(message['postback']['payload'])
+                    df[recipient_id][0] = choice
                     if message['postback']['title'] == 'Read':
-                        #retrieve choice from postback
-                        choice = int(message['postback']['payload'])
-                        #update df with new choice
-                        print(df.keys())
-                        print('Old Choice: ',df[recipient_id][0])
-                        df[recipient_id][0] = choice
-                        print('New Choice: ',df[recipient_id][0])
+                        print('DF Keys Read: ',df.keys())
                         #dictionary for buttons
                         buttons = [
                                         {
@@ -246,23 +251,22 @@ def receive_message():
                                             "payload":choice
                                         }
                                     ]
-                        print(df.keys())
+                        print('Read More Keys: ',df.keys())
                         if len(df[recipient_id][choice]['article']) == 1:
                             send_message(recipient_id, df[recipient_id][choice]['article'][0])
                             df[recipient_id][choice]['article'] = "End"
                             send_message(recipient_id, "End of Article")
                         elif df[recipient_id][choice]['article'] == "End":
-                                send_message(recipient_id, "End of Article")
+                            send_message(recipient_id, "End of Article")
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
                     send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
                     send_message(recipient_id, "Thank you for your interest in me! Due to an influx in responses, I'll be taking a short break for now. See you again tomorrow!")
                 else:
                     send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
-                #If user clicks the get started button
-                    
         else:
             #how does this get triggered
             pass
