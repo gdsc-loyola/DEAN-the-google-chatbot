@@ -150,7 +150,7 @@ def push(results:list):
 def receive_message():
 
     #remember list of articles and what are article the user is reading
-    global df 
+    global df
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
