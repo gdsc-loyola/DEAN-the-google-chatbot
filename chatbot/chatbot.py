@@ -182,7 +182,6 @@ def receive_message():
                     articles = push(links(string[1]))
                     if articles:
                         articles.insert(0,1)
-                        print(articles)
                         df[recipient_id] = articles
                         for i in range(1,len(articles)):
                             
