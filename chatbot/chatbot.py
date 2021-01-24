@@ -116,7 +116,7 @@ def links(keyword:str):
     Retrieves the links from the search results.
     """
     results = []
-    links = search(keyword, tld='com', num=10, stop=10, pause=2)
+    links = search(keyword, num=10, stop=10, pause=2)
     
     #If the search yielded no results
     if not links:
