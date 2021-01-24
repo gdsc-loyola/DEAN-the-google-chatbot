@@ -215,51 +215,54 @@ def receive_message():
                 elif message.get('postback'):
                     if message['postback'].get('title'):
                         #If user wants to read a specific article
-                        if message['postback']['title'] == 'Read':
-                            #retrieve choice from postback
-                            choice = int(message['postback']['payload'])
-                            #update df with new choice
-                            print(df.keys())
-                            print('Old Choice: ',df[recipient_id][0])
-                            df[recipient_id][0] = choice
-                            print('New Choice: ',df[recipient_id][0])
-                            #dictionary for buttons
-                            buttons = [
-                                            {
-                                                "type":"postback",
-                                                "title":"Read more",
-                                                "payload":choice
-                                            }
-                                        ]
-                            #send button message
-                            if len(df[recipient_id][choice]['article']) == 1:
-                                send_message(recipient_id,df[recipient_id][choice]['article'][0])
-                                df[recipient_id][choice]['article'] = "End"
-                                send_message(recipient_id,"End of Article")
-                            elif df[recipient_id][choice]['article'] == "End":
-                                send_message(recipient_id,"End of Article")
-                            else:
-                                button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
-                                df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                        #If user wants to read more of the article
-                        elif message['postback']['title'] == 'Read more':
-                            buttons = [
-                                            {
-                                                "type":"postback",
-                                                "title":"Read more",
-                                                "payload":choice
-                                            }
-                                        ]
-                            print(df.keys())
-                            if len(df[recipient_id][choice]['article']) == 1:
-                                send_message(recipient_id, df[recipient_id][choice]['article'][0])
-                                df[recipient_id][choice]['article'] = "End"
-                                send_message(recipient_id, "End of Article")
-                            elif df[recipient_id][choice]['article'] == "End":
-                                send_message(recipient_id, "End of Article")
-                            else:
-                                button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
-                                df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        if df.get(recipient_id):
+                            if message['postback']['title'] == 'Read':
+                                #retrieve choice from postback
+                                choice = int(message['postback']['payload'])
+                                #update df with new choice
+                                print(df.keys())
+                                print('Old Choice: ',df[recipient_id][0])
+                                df[recipient_id][0] = choice
+                                print('New Choice: ',df[recipient_id][0])
+                                #dictionary for buttons
+                                buttons = [
+                                                {
+                                                    "type":"postback",
+                                                    "title":"Read more",
+                                                    "payload":choice
+                                                }
+                                            ]
+                                #send button message
+                                if len(df[recipient_id][choice]['article']) == 1:
+                                    send_message(recipient_id,df[recipient_id][choice]['article'][0])
+                                    df[recipient_id][choice]['article'] = "End"
+                                    send_message(recipient_id,"End of Article")
+                                elif df[recipient_id][choice]['article'] == "End":
+                                    send_message(recipient_id,"End of Article")
+                                else:
+                                    button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
+                                    df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                            #If user wants to read more of the article
+                            elif message['postback']['title'] == 'Read more':
+                                buttons = [
+                                                {
+                                                    "type":"postback",
+                                                    "title":"Read more",
+                                                    "payload":choice
+                                                }
+                                            ]
+                                print(df.keys())
+                                if len(df[recipient_id][choice]['article']) == 1:
+                                    send_message(recipient_id, df[recipient_id][choice]['article'][0])
+                                    df[recipient_id][choice]['article'] = "End"
+                                    send_message(recipient_id, "End of Article")
+                                elif df[recipient_id][choice]['article'] == "End":
+                                    send_message(recipient_id, "End of Article")
+                                else:
+                                    button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
+                                    df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        else:
+                            send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
                         #If user clicks the get started button
                         elif message['postback']['title'] == 'Get Started':
                             send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
