@@ -196,7 +196,6 @@ def receive_message():
                                                 ]
                                     #Send the title and summary of the article
                                     button_message(recipient_id,articles[i]['title'][0:500],buttons)
-                                    print(df)
                             else:
                                 send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                         #If the person mistakenly just said search
@@ -248,6 +247,7 @@ def receive_message():
                                                 "payload":choice
                                             }
                                         ]
+                            print(df[recipient_id][choice][article])
                             if len(df[recipient_id][choice]['article']) == 1:
                                 send_message(recipient_id, df[recipient_id][choice]['article'][0])
                                 df[recipient_id][choice]['article'] = "End"
