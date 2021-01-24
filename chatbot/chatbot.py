@@ -217,6 +217,7 @@ def receive_message():
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
             print(df)
+<<<<<<< HEAD
             #If user wants to read a specific article
             #update df with new choice
             if df.get(recipient_id):
@@ -264,6 +265,56 @@ def receive_message():
                         button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                         df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
                     return "Messaged Processed"
+=======
+            if message['postback'].get('title'):
+                #If user wants to read a specific article
+                #update df with new choice
+                if df.get(recipient_id):
+                    #retrieve choice from postback
+                    choice = int(message['postback']['payload'])
+                    df[recipient_id][0] = choice
+                    if message['postback']['title'] == 'Read':
+                        print('DF Keys Read: ',df.keys())
+                        #dictionary for buttons
+                        buttons = [
+                                        {
+                                            "type":"postback",
+                                            "title":"Read more",
+                                            "payload":choice
+                                        }
+                                    ]
+                        #send button message
+                        if len(df[recipient_id][choice]['article']) == 1:
+                            send_message(recipient_id,df[recipient_id][choice]['article'][0])
+                            df[recipient_id][choice]['article'] = "End"
+                            send_message(recipient_id,"End of Article")
+                        elif df[recipient_id][choice]['article'] == "End":
+                            send_message(recipient_id,"End of Article")
+                        else:
+                            button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
+                            df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        return "Messaged Processed"
+                    #If user wants to read more of the article
+                    elif message['postback']['title'] == 'Read more':
+                        buttons = [
+                                        {
+                                            "type":"postback",
+                                            "title":"Read more",
+                                            "payload":choice
+                                        }
+                                    ]
+                        print('Read More Keys: ',df.keys())
+                        if len(df[recipient_id][choice]['article']) == 1:
+                            send_message(recipient_id, df[recipient_id][choice]['article'][0])
+                            df[recipient_id][choice]['article'] = "End"
+                            send_message(recipient_id, "End of Article")
+                        elif df[recipient_id][choice]['article'] == "End":
+                            send_message(recipient_id, "End of Article")
+                        else:
+                            button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
+                            df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        return "Messaged Processed"
+>>>>>>> parent of 0750c29... take out unnecessary if
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
                     send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
