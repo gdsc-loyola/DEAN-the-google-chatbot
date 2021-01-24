@@ -217,6 +217,7 @@ def receive_message():
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
             print(df)
+            df[recipient_id] = articles
             if message['postback'].get('title'):
                 #If user wants to read a specific article
                 #update df with new choice
