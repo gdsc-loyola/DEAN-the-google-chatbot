@@ -243,6 +243,11 @@ def receive_message():
                                 send_message(recipient_id, "End of Article")
                             else:
                                 articles[choice]['article'] = articles[choice]['article'][1:]
+                        #If user clicks the get started button
+                        elif message['postback']['title'] == 'Get Started':
+                            send_message(recepient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
+                            send_message(recepient_id, "Thank you for your interest in me! Due to an influx in responses, I'll be taking a short break for now. See you again tomorrow!")
+
                 else:
                     send_message(recipient_id, 'Merry Christmas!')
                 
