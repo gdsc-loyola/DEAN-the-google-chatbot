@@ -219,7 +219,10 @@ def receive_message():
                             #retrieve choice from postback
                             choice = int(message['postback']['payload'])
                             #update df with new choice
+                            print(df.keys())
+                            print('Old Choice: ',df[recipient_id][0])
                             df[recipient_id][0] = choice
+                            print('New Choice: ',df[recipient_id][0])
                             #dictionary for buttons
                             buttons = [
                                             {
