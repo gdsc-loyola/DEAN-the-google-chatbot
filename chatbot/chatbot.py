@@ -216,7 +216,13 @@ def receive_message():
 
 #sends message
 def send_article():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        """Before allowing people to message your bot, Facebook has implemented a verify token
+        that confirms all requests that your bot receives came from Facebook.""" 
+        token_sent = request.args.get("hub.verify_token")
+
+        return verify_fb_token(token_sent)
+    elif request.method == 'POST':
         if message.get('message'):
             if message['message'].get('text'):
                 if string[0].lower() == 'search' and len(string) >= 2:
