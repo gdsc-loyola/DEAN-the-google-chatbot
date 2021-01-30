@@ -7,7 +7,7 @@ import functools
 import json
 import lxml
 import os
-from pymessenger_updated import Bot
+from chatbot.pymessenger_updated import Bot
 import re
 import requests
 from threading import Thread
