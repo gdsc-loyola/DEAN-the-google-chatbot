@@ -147,18 +147,10 @@ def push(results:list):
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
-
-#stores variables
 def receive_message():
 
     #remember list of articles and what are article the user is reading
     global df
-    global output
-    global message
-    global string
-    global articles
-    global recipient_id
-    global choice
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -186,12 +178,34 @@ def receive_message():
                 
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
+                    send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     articles = push(links(string[1]))
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
+                        for i in range(1,len(articles)):
+                            
+                            #Send a button allowing them to read more of the article
+                            buttons = [
+                                            {
+                                                "type":"postback",
+                                                "title":"Read",
+                                                "payload": i
+                                            }
+                                        ]
+                            #Send the title and summary of the article
+                            button_message(recipient_id,articles[i]['title'][0:500],buttons)
+                    else:
+                        send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                 #If the person mistakenly just said search
                     return "Messaged Processed"
+                elif string[0].lower() == 'search' and len(string) == 1:
+                    send_message(recipient_id, "Hi there! Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
+                    #TELL THEM THAT 
+                #All other cases 
+                else:
+                    #indent this when top is uncommented
+                    send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
                 return "Messaged Processed"
             #MIGHT BE IN THE WRONG PLACE!
             #if user sends us a GIF, photo,video, or any other non-text item
@@ -263,79 +277,6 @@ def receive_message():
             pass
     return "Message Processed"
 
-#sends message
-def send_article():
-    if request.method == 'GET':
-        """Before allowing people to message your bot, Facebook has implemented a verify token
-        that confirms all requests that your bot receives came from Facebook.""" 
-        token_sent = request.args.get("hub.verify_token")
-
-        return verify_fb_token(token_sent)
-    elif request.method == 'POST':
-        if message.get('message'):
-            if message['message'].get('text'):
-                if string[0].lower() == 'search' and len(string) >= 2:
-                    send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
-                    if articles:
-                        for i in range(1,len(articles)):
-                            #Send a button allowing them to read more of the article
-                            buttons = [
-                                            {
-                                                "type":"postback",
-                                                "title":"Read",
-                                                "payload": i
-                                            }
-                                        ]
-                            #Send the title and summary of the article
-                            button_message(recipient_id,articles[i]['title'][0:500],buttons)
-                    else:
-                        send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
-        elif message.get('postback'):
-            if df.get(recipient_id):
-                if message['postback']['title'] == 'Read':
-                    #dictionary for buttons
-                    buttons = [
-                                    {
-                                        "type":"postback",
-                                        "title":"Read more",
-                                        "payload":choice
-                                    }
-                                ]
-                    #send button message
-                    if len(df[recipient_id][choice]['article']) == 1:
-                        send_message(recipient_id,df[recipient_id][choice]['article'][0])
-                        df[recipient_id][choice]['article'] = "End"
-                        send_message(recipient_id,"End of Article")
-                    elif df[recipient_id][choice]['article'] == "End":
-                        send_message(recipient_id,"End of Article")
-                    else:
-                        button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
-                        df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                elif message['postback']['title'] == 'Read more':
-                    buttons = [
-                                    {
-                                        "type":"postback",
-                                        "title":"Read more",
-                                        "payload":choice
-                                    }
-                                ]
-                    print('Read More Keys: ',df.keys())
-                    if len(df[recipient_id][choice]['article']) == 1:
-                        send_message(recipient_id, df[recipient_id][choice]['article'][0])
-                        df[recipient_id][choice]['article'] = "End"
-                        send_message(recipient_id, "End of Article")
-                    elif df[recipient_id][choice]['article'] == "End":
-                        send_message(recipient_id, "End of Article")
-                    else:
-                        button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
-                        df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-            #If user clicks the get started button
-            elif message['postback']['title'] == 'Get Started':
-                send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
-            else:
-                send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
-
-
 def verify_fb_token(token_sent):
     #take token sent by facebook and verify it matches the verify token you sent
     #if they match, allow the request, else return an error 
@@ -369,5 +310,3 @@ def timer(func):
 
 if __name__ == "__main__":
     app.run()
-    receive_message()
-    send_article()
