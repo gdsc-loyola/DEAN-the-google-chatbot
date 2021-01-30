@@ -214,6 +214,7 @@ def receive_message():
             pass
     return "Message Processed"
 
+@app.route("/", methods=['GET', 'POST'])
 #sends message
 def send_article():
     if request.method == 'GET':
@@ -320,5 +321,3 @@ def timer(func):
 
 if __name__ == "__main__":
     app.run()
-    receive_message()
-    send_article()
