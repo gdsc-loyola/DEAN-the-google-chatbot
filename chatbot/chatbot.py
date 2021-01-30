@@ -314,3 +314,5 @@ def timer(func):
 
 if __name__ == "__main__":
     app.run()
+    receive_message()
+    send_article()
