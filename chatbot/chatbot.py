@@ -182,7 +182,7 @@ def receive_message():
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     #articles = push(links(string[1]))
-                    articles = list(scraper(links(string[1])[0]))
+                    articles = [scraper(links(string[1])[0])]
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
