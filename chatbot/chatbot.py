@@ -17,6 +17,7 @@ import time
 load_dotenv()
 
 app = Flask(__name__)
+print('FLASK STARTING')
 ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
@@ -322,3 +323,4 @@ def timer(func):
 
 if __name__ == "__main__":
     app.run()
+    print('FLASK APP RUNNING')
