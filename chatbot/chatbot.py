@@ -246,8 +246,10 @@ def receive_message():
                             send_message(recipient_id,"End of Article")
                         else:
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
+                            print(df[recipient_id][choice]['article'][1])
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                        print('=====================PRINTING AFTER READ=========================')
+                        print('=====================PRINTING AFTER READ :D')
+                        print(df[recipient_id][choice]['article'][0])
                         return "Messaged Processed"
                     #If user wants to read more of the article
                     elif message['postback']['title'] == 'Read more':
@@ -267,9 +269,10 @@ def receive_message():
                             send_message(recipient_id, "End of Article")
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
-                            print(df[recipient_id][choice]['article'])
+                            print(df[recipient_id][choice]['article'][1])
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                        print('=============================PRINTING AFTER READ MORE===========================')
+                        print('=============================PRINTING AFTER READ MORE=========================== :( ')
+                        print(df[recipient_id][choice]['article'][0])
                         return "Messaged Processed"
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
