@@ -267,6 +267,7 @@ def receive_message():
                             send_message(recipient_id, "End of Article")
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
+                            print(df[recipient_id][choice]['article'])
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
                         print('=============================PRINTING AFTER READ MORE===========================')
                         return "Messaged Processed"
