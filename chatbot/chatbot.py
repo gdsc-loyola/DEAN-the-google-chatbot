@@ -198,18 +198,20 @@ def receive_message():
                             #Send the title and summary of the article
                             button_message(recipient_id,articles[i]['title'][0:500],buttons)
                         print('DF AFTER 199: ',df)
+                        return "Messaged Processed"
                     else:
                         send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
+                        return "Messaged Processed"
                 #If the person mistakenly just said search
-                    return "Messaged Processed"
                 elif string[0].lower() == 'search' and len(string) == 1:
                     send_message(recipient_id, "Hi there! Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
+                    return "Messaged Processed"
                     #TELL THEM THAT 
                 #All other cases 
                 else:
                     #indent this when top is uncommented
                     send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
-                return "Messaged Processed"
+                    return "Messaged Processed"
             #MIGHT BE IN THE WRONG PLACE!
             #if user sends us a GIF, photo,video, or any other non-text item
             if message['message'].get('attachments'):
@@ -278,9 +280,10 @@ def receive_message():
                 elif message['postback']['title'] == 'Get Started':
                     send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
                     send_message(recipient_id, "Thank you for your interest in me! Due to an influx in responses, I'll be taking a short break for now. See you again tomorrow!")
+                    return "Messaged Processed"
                 else:
                     send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
-                return "Messaged Processed"
+                    return "Messaged Processed"
         else:
             #how does this get triggered
             pass
