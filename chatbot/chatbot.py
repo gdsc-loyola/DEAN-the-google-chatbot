@@ -89,6 +89,7 @@ def scraper(url:str):
     try:
         soup = get_request(url)
     except:
+        print("SOUP ERROR")
         return
     
     #Timeout decorator somewhere here (end)
@@ -96,6 +97,7 @@ def scraper(url:str):
     try:
         title = soup.find_all('title')[0].text.strip() + "\n(Link: " + url + " )\n---\n"
     except:
+        print("TITLE ERROR")
         return
     
     processed = [i for i in [tag.text.strip() for tag in soup.find_all() if tag.name in ['p']] if i]
@@ -188,7 +190,7 @@ def receive_message():
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     #articles = push(links(string[1]))
-                    articles = [scraper(links(string[1])[0])]
+                    articles = scraper(links(string[1])[0])
                     print(articles)
                     if articles:
                         articles.insert(0,1)
