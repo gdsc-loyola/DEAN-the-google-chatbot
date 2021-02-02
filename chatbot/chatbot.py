@@ -22,6 +22,7 @@ ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 headers = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
+print('POTA DO NOT REDECLARE')
 df = {}
     
 number_of_results = 5 #Number of searches to send
@@ -161,7 +162,7 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
-        print('=====================DF AT THE START 163: ',df)
+        print('=====================DF AT THE START 163: ',df.keys())
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -186,7 +187,7 @@ def receive_message():
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
-                        print('DF AFTER 186: ',df)
+                        print('DF AFTER 186: ',df.keys())
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
@@ -199,7 +200,7 @@ def receive_message():
                                         ]
                             #Send the title and summary of the article
                             button_message(recipient_id,articles[i]['title'][0:500],buttons)
-                        print('DF AFTER 199: ',df)
+                        print('DF AFTER 199: ',df.keys())
                         return "Messaged Processed"
                     else:
                         send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
@@ -223,7 +224,6 @@ def receive_message():
         #If user clicked one of the postback buttons
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
-            print(df)
             if message['postback'].get('title'):
                 #If user wants to read a specific article
                 #update df with new choice
