@@ -160,7 +160,7 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
-        print('163: ',df)
+        print('=====================DF AT THE START 163: ',df)
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -184,7 +184,7 @@ def receive_message():
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
-                        print('186: ',df)
+                        print('DF AFTER 186: ',df)
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
@@ -197,7 +197,7 @@ def receive_message():
                                         ]
                             #Send the title and summary of the article
                             button_message(recipient_id,articles[i]['title'][0:500],buttons)
-                        print('199 ',df)
+                        print('DF AFTER 199: ',df)
                     else:
                         send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                 #If the person mistakenly just said search
@@ -247,6 +247,7 @@ def receive_message():
                         else:
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        print('=====================PRINTING AFTER READ=========================')
                         return "Messaged Processed"
                     #If user wants to read more of the article
                     elif message['postback']['title'] == 'Read more':
@@ -267,6 +268,7 @@ def receive_message():
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                        print('=============================PRINTING AFTER READ MORE===========================')
                         return "Messaged Processed"
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
