@@ -7,12 +7,13 @@ import functools
 import json
 import lxml
 import os
-from chatbot.pymessenger_updated import Bot
+from pymessenger_updated import Bot
 import re
 import requests
 from threading import Thread
 from time import sleep
 import time
+import pickle
 
 load_dotenv()
 
@@ -153,7 +154,7 @@ def receive_message():
 
     #remember list of articles and what are article the user is reading
     global df
-
+    
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
         that confirms all requests that your bot receives came from Facebook.""" 
@@ -162,6 +163,10 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
+        print(os.getcwd())
+        if os.path.exists("df.pickle"):
+            with open("df.pickle", "r") as x:
+                df = pickle.load(x)
         print('=====================DF AT THE START 163: ',df.keys())
         # get whatever message a user sent the bot
         output = request.get_json()
@@ -187,6 +192,8 @@ def receive_message():
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
+                        with open("df.pickle", "wb") as z:
+                            pickle.dump(df, z, protocol=pickle.HIGHEST_PROTOCOL)
                         print('DF AFTER 186: ',df.keys())
                         for i in range(1,len(articles)):
                             
