@@ -189,6 +189,7 @@ def receive_message():
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     #articles = push(links(string[1]))
                     articles = [scraper(links(string[1])[0])]
+                    print(articles)
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
