@@ -25,8 +25,6 @@ def receive_message():
     #remember list of articles and what are article the user is reading
     global df
     global message
-    with open('message.pickle', 'wb') as x:
-        pickle.dump(message, x, protocol=pickle.HIGHEST_PROTOCOL)
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -40,6 +38,8 @@ def receive_message():
         if os.path.exists('df.pickle'):
             with open('df.pickle', 'rb') as x:
                 df = pickle.load(x)
+        with open('message.pickle', 'wb') as x:
+            pickle.dump(message, x, protocol=pickle.HIGHEST_PROTOCOL)
             
         # get whatever message a user sent the bot
         output = request.get_json()
