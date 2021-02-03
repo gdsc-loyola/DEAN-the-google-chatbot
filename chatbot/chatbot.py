@@ -13,6 +13,7 @@ import requests
 from threading import Thread
 from time import sleep
 import time
+import pickle
 
 load_dotenv()
 
@@ -160,6 +161,11 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
+        print(os.getcwd())
+        if os.path.exists('df.pickle'):
+            with open('df.pickle', 'rb') as x:
+                df = pickle.load(x)
+
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -183,6 +189,8 @@ def receive_message():
                     if articles:
                         articles.insert(0,1)
                         df[recipient_id] = articles
+                        with open('df.pickle', 'wb') as z:
+                            pickle.dump(df, z, protocol = pickle.HIGHEST_PROTOCOL)
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
