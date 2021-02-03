@@ -165,11 +165,12 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
+        #If pickle file exists, load it
         print(os.getcwd())
         if os.path.exists("df.pickle"):
             with open("df.pickle", "rb") as x:
                 df = pickle.load(x)
-        #print('=====================DF AT THE START 163: ',df.keys())
+        print('=====================DF AT THE START 163: ',df.keys())
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -189,11 +190,12 @@ def receive_message():
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
-                    """
+
+                    #Reset pickle file
                     df.pop(recipient_id, None)
                     with open('df.pickle', 'wb') as x:
                         pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
-                    """
+                    
                     articles = push(links(string[1]))
                     #articles = [scraper(links(string[1])[0])]
                     print(articles)
@@ -202,7 +204,7 @@ def receive_message():
                         df[recipient_id] = articles
                         with open("df.pickle", "wb") as z:
                             pickle.dump(df, z, protocol=pickle.HIGHEST_PROTOCOL)
-                        #print('DF AFTER 186: ',df.keys())
+                        print('DF AFTER 186: ',df.keys())
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
