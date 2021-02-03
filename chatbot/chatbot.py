@@ -58,6 +58,8 @@ def receive_message():
                 
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
+
+                    #Stops message spam
                     with open('message.pickle', 'rb') as x:
                         previous_message = pickle.load(x)
                     print('previous message: ', previous_message)
