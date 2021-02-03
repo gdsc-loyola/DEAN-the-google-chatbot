@@ -60,6 +60,8 @@ def receive_message():
                 if string[0].lower() == 'search' and len(string) >= 2:
                     with open('message.pickle', 'rb') as x:
                         previous_message = pickle.load(x)
+                    print('previous message: ', previous_message)
+                    print('message: ', message)
                     if message == previous_message:
                         print('MESSAGE PROCESSED')
                         return 'message processed'
