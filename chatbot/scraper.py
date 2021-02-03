@@ -39,7 +39,7 @@ def timeout(seconds_before_timeout):
         return wrapper
     return deco
 
-@timeout(12)
+@timeout(10)
 def get_request(url):
     """
     Gets the website and scrapes it using BeautifulSoup
