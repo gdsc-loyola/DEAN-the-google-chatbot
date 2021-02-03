@@ -13,7 +13,6 @@ import requests
 from threading import Thread
 from time import sleep
 import time
-import pickle
 
 load_dotenv()
 
@@ -161,11 +160,6 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
-        print(os.getcwd())
-        if os.path.exists('df.pickle'):
-            with open('df.pickle', 'rb') as x:
-                df = pickle.load(x)
-
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -187,13 +181,8 @@ def receive_message():
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     articles = push(links(string[1]))
                     if articles:
-                        df.pop(recipient_id, None)
-                        with open('df.pickle', 'wb') as x:
-                            pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         articles.insert(0,1)
                         df[recipient_id] = articles
-                        with open('df.pickle', 'wb') as z:
-                            pickle.dump(df, z, protocol = pickle.HIGHEST_PROTOCOL)
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
@@ -255,8 +244,6 @@ def receive_message():
                         else:
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                            with open('df.pickle', 'wb') as x:
-                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
                     #If user wants to read more of the article
                     elif message['postback']['title'] == 'Read more':
@@ -277,8 +264,6 @@ def receive_message():
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
-                            with open('df.pickle', 'wb') as x:
-                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
