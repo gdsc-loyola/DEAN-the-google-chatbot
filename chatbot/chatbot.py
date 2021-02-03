@@ -189,9 +189,11 @@ def receive_message():
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
+                    """
                     df.pop(recipient_id, None)
                     with open('df.pickle', 'wb') as x:
                         pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
+                    """
                     articles = push(links(string[1]))
                     #articles = [scraper(links(string[1])[0])]
                     print(articles)
