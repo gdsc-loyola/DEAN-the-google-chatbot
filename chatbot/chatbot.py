@@ -23,7 +23,7 @@ df = {}
 def receive_message():
     #remember list of articles and what are article the user is reading
     global df
-    previous_df = df
+    previous_df = {'No to ': 'repeat message'}
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -68,6 +68,7 @@ def receive_message():
                                 pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                             articles.insert(0,1)
                             df[recipient_id] = articles
+                            previous_df = df
                             with open('df.pickle', 'wb') as z:
                                 pickle.dump(df, z, protocol = pickle.HIGHEST_PROTOCOL)
                             for i in range(1,len(articles)):
