@@ -189,8 +189,8 @@ def receive_message():
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
-                    #articles = push(links(string[1]))
-                    articles = [scraper(links(string[1])[0])]
+                    articles = push(links(string[1]))
+                    #articles = [scraper(links(string[1])[0])]
                     print(articles)
                     if articles:
                         articles.insert(0,1)
