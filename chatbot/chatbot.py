@@ -168,7 +168,8 @@ def receive_message():
         print(os.getcwd())
         if os.path.exists("df.pickle"):
             with open("df.pickle", "rb") as x:
-                df = pickle.load(x)
+                check = pickle.load(x)
+                print(check)
         print('=====================DF AT THE START 163: ',df.keys())
         # get whatever message a user sent the bot
         output = request.get_json()
