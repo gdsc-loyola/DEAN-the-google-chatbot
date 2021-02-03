@@ -199,7 +199,7 @@ def receive_message():
                         df[recipient_id] = articles
                         with open("df.pickle", "wb") as z:
                             pickle.dump(df, z, protocol=pickle.HIGHEST_PROTOCOL)
-                        print('DF AFTER 186: ',df.keys())
+                        #print('DF AFTER 186: ',df.keys())
                         for i in range(1,len(articles)):
                             
                             #Send a button allowing them to read more of the article
