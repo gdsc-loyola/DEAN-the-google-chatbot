@@ -8,7 +8,7 @@ import re
 from time import sleep
 import time
 import pickle
-from scraper import timeout, get_request, scraper, links, push
+from chatbot.scraper import timeout, get_request, scraper, links, push
 
 load_dotenv()
 
