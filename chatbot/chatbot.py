@@ -65,7 +65,7 @@ def receive_message():
                     print('previous message: ', previous_message)
                     print('message: ', message)
                     if message == previous_message:
-                        send_message(recipient_id, "BUG HERE")
+                        send_message(recipient_id, "Hello I apologize for the double send. This is due to the number of people using the bot. Please wait for a few seconds and you can try again! :)")
                         print('STOP SPAM NOW STOP IT')
                         return 'message processed'
                     else: 
