@@ -39,6 +39,7 @@ def receive_message():
                 df = pickle.load(x)
 
         if previous_df == df:
+            print('message processed')
             return 'Message processed'
         else:
             # get whatever message a user sent the bot
