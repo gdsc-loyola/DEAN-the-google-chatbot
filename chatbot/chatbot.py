@@ -169,8 +169,7 @@ def receive_message():
         print(os.getcwd())
         if os.path.exists("df.pickle"):
             with open("df.pickle", "rb") as x:
-                check = pickle.load(x)
-        print("Check: ", check)
+                df = pickle.load(x)
         print('=====================DF AT THE START 163: ',df.keys())
         # get whatever message a user sent the bot
         output = request.get_json()
@@ -264,6 +263,8 @@ def receive_message():
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
                             print(df[recipient_id][choice]['article'][1])
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         print('=====================PRINTING AFTER READ :D')
                         print(df[recipient_id][choice]['article'][0])
                         return "Messaged Processed"
@@ -287,6 +288,8 @@ def receive_message():
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             print(df[recipient_id][choice]['article'][1])
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         print('=============================PRINTING AFTER READ MORE=========================== :( ')
                         print(df[recipient_id][choice]['article'][0])
                         return "Messaged Processed"
