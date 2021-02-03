@@ -187,6 +187,9 @@ def receive_message():
                     send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                     articles = push(links(string[1]))
                     if articles:
+                        df.pop(recipient_id, None)
+                        with open('df.pickle', 'wb') as x:
+                            pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         articles.insert(0,1)
                         df[recipient_id] = articles
                         with open('df.pickle', 'wb') as z:
@@ -252,6 +255,8 @@ def receive_message():
                         else:
                             button_message(recipient_id,df[recipient_id][choice]['article'][0],buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
                     #If user wants to read more of the article
                     elif message['postback']['title'] == 'Read more':
@@ -272,6 +277,8 @@ def receive_message():
                         else:
                             button_message(recipient_id, df[recipient_id][choice]['article'][0], buttons)
                             df[recipient_id][choice]['article'] = df[recipient_id][choice]['article'][1:]
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
                 #If user clicks the get started button
                 elif message['postback']['title'] == 'Get Started':
