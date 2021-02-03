@@ -99,7 +99,7 @@ def receive_message():
         #If user clicked one of the postback buttons
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
-            #print(df)
+            print(df)
             if message['postback'].get('title'):
                 #If user wants to read a specific article
                 #update df with new choice
