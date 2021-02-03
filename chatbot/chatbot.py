@@ -63,7 +63,8 @@ def receive_message():
                     print('previous message: ', previous_message)
                     print('message: ', message)
                     if message == previous_message:
-                        print('MESSAGE PROCESSED')
+                        send_message(recipient_id, "BUG HERE")
+                        print('STOP SPAM NOW STOP IT')
                         return 'message processed'
                     else: 
                         send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
