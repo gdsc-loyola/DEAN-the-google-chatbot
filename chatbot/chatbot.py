@@ -307,6 +307,3 @@ def timer(func):
         print(f"Finished {func.__name__!r} in {run_time:.4f} secs")
         return value
     return wrapper_timer
-
-if __name__ == "__main__":
-    app.run()
