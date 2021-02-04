@@ -38,6 +38,9 @@ def receive_message():
         if os.path.exists('df.pickle'):
             with open('df.pickle', 'rb') as x:
                 df = pickle.load(x)
+
+        with open('message.pickle', 'wb') as x:
+            pickle.dump(previous_message, x, protocol=pickle.HIGHEST_PROTOCOL)
             
         # get whatever message a user sent the bot
         output = request.get_json()
@@ -51,8 +54,6 @@ def receive_message():
         recipient_id = str(message['sender']['id'])
     
         previous_message[recipient_id] = message
-        with open('message.pickle', 'wb') as x:
-            pickle.dump(previous_message, x, protocol=pickle.HIGHEST_PROTOCOL)
 
         #If user sent a message
         if message.get('message'):
@@ -93,6 +94,8 @@ def receive_message():
                                             ]
                                 #Send the title and summary of the article
                                 button_message(recipient_id,articles[i]['title'][0:500],buttons)
+                            
+
                         else:
                             send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                 #If the person mistakenly just said search
