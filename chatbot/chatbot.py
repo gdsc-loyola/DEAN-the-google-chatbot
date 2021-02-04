@@ -126,9 +126,13 @@ def receive_message():
             print('DF Keys Existing: ',df.keys())
             #print(df)
             if message['postback'].get('title'):
+                #If user clicks the get started button
+                if message['postback']['title'] == 'Get Started':
+                    send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
+                
                 #If user wants to read a specific article
                 #update df with new choice
-                if df.get(recipient_id):
+                elif df.get(recipient_id):
                     #retrieve choice from postback
                     choice = int(message['postback']['payload'])
                     df[recipient_id][0] = choice
@@ -181,9 +185,6 @@ def receive_message():
                             with open('df.pickle', 'wb') as x:
                                 pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
-                #If user clicks the get started button
-                elif message['postback']['title'] == 'Get Started':
-                    send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
                 else:
                     send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
                 return "Messaged Processed"
