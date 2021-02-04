@@ -65,6 +65,14 @@ def receive_message():
                     #Stops message spam
                     with open('message.pickle', 'rb') as x:
                         previous_message = pickle.load(x)
+                        check_message = pickle.load(x)
+
+                    #Store recipient ID in previous message
+                    if check_message.get(recipient_id):
+                        pass
+                    else: 
+                        previous_message = message_dict
+
                     print('previous message: ', previous_message[recipient_id])
                     print('message: ', message)
                     if message == previous_message[recipient_id]:
