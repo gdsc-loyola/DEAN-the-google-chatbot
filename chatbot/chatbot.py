@@ -39,8 +39,8 @@ def receive_message():
             with open('df.pickle', 'rb') as x:
                 df = pickle.load(x)
 
-        with open('message.pickle', 'rb') as x:
-            previous_message = pickle.load(x)
+        with open('message.pickle', 'wb') as x:
+            pickle.dump(previous_message, x, protocol=pickle.HIGHEST_PROTOCOL)
             
         # get whatever message a user sent the bot
         output = request.get_json()
