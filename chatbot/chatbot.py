@@ -17,14 +17,14 @@ ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 df = {}
-previous_message = {}
+message = ''
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
     #remember list of articles and what are article the user is reading
     global df
-    global previous_message
+    global message
 
     if request.method == 'GET':
         """Before allowing people to message your bot, Facebook has implemented a verify token
@@ -40,8 +40,8 @@ def receive_message():
                 df = pickle.load(x)
 
         with open('message.pickle', 'wb') as x:
-            pickle.dump(previous_message, x, protocol=pickle.HIGHEST_PROTOCOL)
-            
+            pickle.dump(message, x, protocol=pickle.HIGHEST_PROTOCOL)
+
         # get whatever message a user sent the bot
         output = request.get_json()
         print(output)
@@ -52,8 +52,6 @@ def receive_message():
         #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
-    
-        previous_message[recipient_id] = message
 
         #If user sent a message
         if message.get('message'):
@@ -66,9 +64,9 @@ def receive_message():
                     #Stops message spam
                     with open('message.pickle', 'rb') as x:
                         previous_message = pickle.load(x)
-                    print('previous message: ', previous_message[recipient_id])
+                    print('previous message: ', previous_message)
                     print('message: ', message)
-                    if message == previous_message[recipient_id]:
+                    if message == previous_message:
                         print('STOP FUNCTION BEFORE IT SPAMS')
                         return 'message processed'
                     else: 
