@@ -138,6 +138,8 @@ def receive_message():
                         if len(df[recipient_id][choice]['article']) == 1:
                             send_message(recipient_id,df[recipient_id][choice]['article'][0])
                             df[recipient_id][choice]['article'] = "End"
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                             send_message(recipient_id,"End of Article")
                         elif df[recipient_id][choice]['article'] == "End":
                             send_message(recipient_id,"End of Article")
@@ -160,6 +162,8 @@ def receive_message():
                         if len(df[recipient_id][choice]['article']) == 1:
                             send_message(recipient_id, df[recipient_id][choice]['article'][0])
                             df[recipient_id][choice]['article'] = "End"
+                            with open('df.pickle', 'wb') as x:
+                                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                             send_message(recipient_id, "End of Article")
                         elif df[recipient_id][choice]['article'] == "End":
                             send_message(recipient_id, "End of Article")
