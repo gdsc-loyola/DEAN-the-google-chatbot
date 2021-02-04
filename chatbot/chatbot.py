@@ -17,7 +17,6 @@ ACCESS_TOKEN = os.environ['PAGE_ACCESS_TOKEN']
 VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 df = {}
-message = ''
 previous_message = {}
 
 #We will receive messages that Facebook sends our bot at this endpoint 
@@ -25,7 +24,6 @@ previous_message = {}
 def receive_message():
     #remember list of articles and what are article the user is reading
     global df
-    global message
     global previous_message
 
     if request.method == 'GET':
@@ -41,8 +39,8 @@ def receive_message():
             with open('df.pickle', 'rb') as x:
                 df = pickle.load(x)
 
-        with open('message.pickle', 'wb') as x:
-            pickle.dump(previous_message, x, protocol=pickle.HIGHEST_PROTOCOL)
+        with open('message.pickle', 'rb') as x:
+            previous_message = pickle.load(x)
             
         # get whatever message a user sent the bot
         output = request.get_json()
@@ -54,8 +52,9 @@ def receive_message():
         #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
-        
-        previous_message = {recipient_id: message}
+    
+        previous_message[recipient_id] = message
+
         #If user sent a message
         if message.get('message'):
             if message['message'].get('text'):
