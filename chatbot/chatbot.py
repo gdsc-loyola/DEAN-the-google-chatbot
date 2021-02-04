@@ -34,12 +34,14 @@ def receive_message():
         return verify_fb_token(token_sent)
     #if the request was not get, it must be POST and we can just proceed with sending a message back to user
     else:
+        unique_message = {}
+
         print(os.getcwd())
         if os.path.exists('df.pickle'):
             with open('df.pickle', 'rb') as x:
                 df = pickle.load(x)
-        with open('message.pickle', 'wb') as x:
-            pickle.dump(message, x, protocol=pickle.HIGHEST_PROTOCOL)
+        with open('message.pickle', 'a+') as x:
+            pickle.dump(unique_message, x, protocol=pickle.HIGHEST_PROTOCOL)
             
         # get whatever message a user sent the bot
         output = request.get_json()
@@ -51,6 +53,8 @@ def receive_message():
         #unindented twice
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
+
+        unique_message = {recipient_id: message}
         #If user sent a message
         if message.get('message'):
             if message['message'].get('text'):
@@ -64,7 +68,7 @@ def receive_message():
                         previous_message = pickle.load(x)
                     print('previous message: ', previous_message)
                     print('message: ', message)
-                    if message == previous_message:
+                    if message == previous_message[recipient_id]:
                         print('STOP FUNCTION BEFORE IT SPAMS')
                         return 'message processed'
                     else: 
