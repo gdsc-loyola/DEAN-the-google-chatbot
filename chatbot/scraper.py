@@ -76,7 +76,9 @@ def scraper(url:str):
     #Timeout decorator somewhere here (end)
     
     try:
-        title = soup.find_all('title')[0].text.strip() + "\n(Link: " + url + " )\n---\n"
+        uid = soup.find_all('title')[0].text.strip()
+        title = uid + "\n(Link: " + url + " )\n---\n"
+         
     except:
         return
     
@@ -89,7 +91,7 @@ def scraper(url:str):
         #Page not loaded, go to the next URL
         return
 
-    my_dict = {'uid':title,'title':title + ''' ''' + article[0][0:450],'article':article}
+    my_dict = {'uid':uid,'title':title + ''' ''' + article[0][0:450],'article':article}
 
     return my_dict
 
