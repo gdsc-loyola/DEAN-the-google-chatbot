@@ -1,3 +1,5 @@
+import re
+
 def process_message(text):
     '''Understand what they said'''
     text = text.lower().strip()
