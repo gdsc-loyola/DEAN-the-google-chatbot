@@ -6,3 +6,8 @@ def process_message(text):
     if text.lower() in greetings:
         answer = 'Hello there!'
     return answer
+
+def process_media(media):
+    '''How do you process a picture/video lol'''
+    pass
+    return

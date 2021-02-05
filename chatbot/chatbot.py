@@ -1,4 +1,4 @@
-from chatbot.conversation import process_message
+from chatbot.conversation import process_message, process_media
 from chatbot.pymessenger_updated import Bot
 from chatbot.scraper import timeout, get_request, scraper, links, push
 from dotenv import load_dotenv
@@ -119,10 +119,9 @@ def receive_message():
                     else:
                         send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
                 return "Messaged Processed"
-            #MIGHT BE IN THE WRONG PLACE!
             #if user sends us a GIF, photo,video, or any other non-text item
             if message['message'].get('attachments'):
-                #FUTURE DEVELOPMENT THINGOS
+                #process_media(message['message'].get('attachments'))
                 pass
                 return "Messaged Processed"
         #If user clicked one of the postback buttons
