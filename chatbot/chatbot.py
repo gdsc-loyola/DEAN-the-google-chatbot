@@ -72,8 +72,9 @@ def receive_message():
                     #Store recipient ID in previous message
                     if check_message.get(recipient_id):
                         pass
-                    else: 
+                    else:
                         previous_message = message_dict
+                        previous_message[recipient_id] = {}
 
                     print('previous message: ', previous_message[recipient_id])
                     print('message: ', message)
