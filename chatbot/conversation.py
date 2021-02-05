@@ -1,10 +1,19 @@
 def process_message(text):
     '''Understand what they said'''
+    text = text.lower().strip()
     answer = ''
-    greetings = ['hi','hello']
 
-    if text.lower() in greetings:
-        answer = 'Hello there!'
+    #match
+    greetings = ['hi','hello']
+    gratitude = 'thank'
+
+    if any(re.search(re.compile(f'\\b{x}\\b'),text) for x in greetings):
+        answer = "Hello there!"
+        return answer
+    elif re.search(gratitude,text):
+        answer = "You're welcome! :)"
+        return answer
+
     return answer
 
 def process_media(media):
