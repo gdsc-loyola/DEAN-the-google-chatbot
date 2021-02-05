@@ -74,7 +74,6 @@ def receive_message():
                         pass
                     else:
                         previous_message = message_dict
-                        previous_message[recipient_id] = {}
 
                     print('previous message: ', previous_message[recipient_id])
                     print('message: ', message)
