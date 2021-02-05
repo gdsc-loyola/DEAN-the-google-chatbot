@@ -1,3 +1,4 @@
+from chatbot.conversation import process_message
 from chatbot.pymessenger_updated import Bot
 from chatbot.scraper import timeout, get_request, scraper, links, push
 from dotenv import load_dotenv
@@ -57,7 +58,8 @@ def receive_message():
         #If user sent a message
         if message.get('message'):
             if message['message'].get('text'):
-                string = message['message'].get('text').lstrip().split(' ',1)
+                text = message['message'].get('text').strip()
+                string = text.lstrip().split(' ',1)
                 
                 #If the person wants to search something
                 if string[0].lower() == 'search' and len(string) >= 2:
@@ -111,8 +113,11 @@ def receive_message():
                     #TELL THEM THAT 
                 #All other cases 
                 else:
-                    #indent this when top is uncommented
-                    send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
+                    answer = process_message(text)
+                    if answer:
+                        send_message(recipient_id,answer)
+                    else:
+                        send_message(recipient_id,"Can you say that again? I didn't understand what you said. Make sure that you type 'search' before your question. Ex. search Who is the President of the Philippines?")
                 return "Messaged Processed"
             #MIGHT BE IN THE WRONG PLACE!
             #if user sends us a GIF, photo,video, or any other non-text item
