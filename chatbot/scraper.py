@@ -89,7 +89,7 @@ def scraper(url:str):
         #Page not loaded, go to the next URL
         return
 
-    my_dict = {'title':title + ''' ''' + article[0][0:450],'article':article}
+    my_dict = {'uid':title,'title':title + ''' ''' + article[0][0:450],'article':article}
 
     return my_dict
 
@@ -121,11 +121,13 @@ def push(results:list):
 
     threads = min(32,len(results))
     new_list = []
+    titles = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         map_object = executor.map(scraper,results)
     for article in map_object:
-        if article:
+        if article and (article['uid'] not in titles):
             new_list.append(article)
+            titles.append(article['uid'])
             if len(new_list) == number_of_results:
                 return new_list
     return new_list
