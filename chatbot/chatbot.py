@@ -19,6 +19,7 @@ VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
 bot = Bot(ACCESS_TOKEN)
 df = {}
 message_dict = {}
+message_dict2 = {}
 
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
@@ -54,6 +55,7 @@ def receive_message():
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
         message_dict[recipient_id] = message
+        message_dict2[recipient_id] = message
 
         #If user sent a message
         if message.get('message'):
@@ -73,7 +75,7 @@ def receive_message():
                     if check_message.get(recipient_id):
                         pass
                     else:
-                        previous_message = message_dict
+                        previous_message = message_dict2
 
                     print('previous message: ', previous_message[recipient_id])
                     print('message: ', message)
