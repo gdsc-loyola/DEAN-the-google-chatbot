@@ -106,8 +106,8 @@ def links(keyword:str):
         #The chatbot tells the person to refine their search
         return
     
-    for item in links:
-        results.append(item)
+    #Remove duplicate links
+    [results.append(link) for link in links if link not in results]
     
     return results
     

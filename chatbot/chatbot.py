@@ -1,14 +1,14 @@
+from chatbot.pymessenger_updated import Bot
+from chatbot.scraper import timeout, get_request, scraper, links, push
 from dotenv import load_dotenv
 from flask import Flask, request
 import functools
 import json
 import os
-from chatbot.pymessenger_updated import Bot
-import re
-from time import sleep
-import time
 import pickle
-from chatbot.scraper import timeout, get_request, scraper, links, push
+import random
+import re
+import time
 
 load_dotenv()
 
@@ -89,8 +89,8 @@ def receive_message():
                             df[recipient_id] = articles
                             with open('df.pickle', 'wb') as z:
                                 pickle.dump(df, z, protocol = pickle.HIGHEST_PROTOCOL)
+                            #feedback(recipient_id)
                             for i in range(1,len(articles)):
-                                
                                 #Send a button allowing them to read more of the article
                                 buttons = [
                                                 {
@@ -102,7 +102,6 @@ def receive_message():
                                 #Send the title and summary of the article
                                 button_message(recipient_id,articles[i]['title'][0:500],buttons)
                             
-
                         else:
                             send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')
                 #If the person mistakenly just said search
@@ -124,7 +123,6 @@ def receive_message():
         #If user clicked one of the postback buttons
         elif message.get('postback'):
             print('DF Keys Existing: ',df.keys())
-            #print(df)
             if message['postback'].get('title'):
                 #If user clicks the get started button
                 if message['postback']['title'] == 'Get Started':
@@ -185,11 +183,13 @@ def receive_message():
                             with open('df.pickle', 'wb') as x:
                                 pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
                         return "Messaged Processed"
+                    elif message['postback']['title'] == 'Feedback':
+                        pass
                 else:
                     send_message(recipient_id, "Hi there! Could you please repeat your search? Make sure you write 'search' before your query. Ex. search Who is the President of the Philippines")
                 return "Messaged Processed"
         else:
-            #how does this get triggered
+            #gets triggered if there is another type of message that's not message/postback
             pass
     return "Message Processed"
 
@@ -202,14 +202,29 @@ def verify_fb_token(token_sent):
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
-    #sends user the text message provided via input response parameter
+    '''sends user the text message provided via input response parameter'''
     bot.send_text_message(recipient_id, response)
     return "success"    
 
 #uses PyMessenger to send message with button to user
 def button_message(recipient_id,response,buttons):
-    #sends user the button message provided via input response parameter
+    '''sends user the button message provided via input response parameter'''
     bot.send_button_message(recipient_id,response,buttons)
+    return "success"
+
+def feedback(recipient_id):
+    '''Send a feedback button to let them provide feedback'''
+    if random.random() <= 0.3:
+        time.sleep(1.5)
+        message = 'Thank you for using DEAN! If you have any comments or suggestions, let us know here! :)'
+        buttons = [
+                        {
+                            "type":"postback",
+                            "title":"Feedback",
+                            "payload":recipient_id
+                        }
+                    ]
+        button_message(recipient_id,message,buttons)
     return "success"
 
 def timer(func):
