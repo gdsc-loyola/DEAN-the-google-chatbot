@@ -15,6 +15,12 @@ def process_message(text):
     elif re.search(gratitude,text):
         answer = "You're welcome! :)"
         return answer
+    elif text == 'read':
+        answer = "I'm sorry, I do not understand that. Please click the read button rather than typing it. :)"
+        return answer
+    elif text == 'read more':
+        answer = "I'm sorry I did not understand that. Please click the read more button rather than typing it. :)"
+        return answer
 
     return answer
 
