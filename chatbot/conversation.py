@@ -8,13 +8,13 @@ import os
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
     '''sends user the text message provided via input response parameter'''
-    bot.send_text_message(recipient_id, response)
+    Bot.send_text_message(recipient_id, response)
     return "success"    
 
 #uses PyMessenger to send message with button to user
 def button_message(recipient_id,response,buttons):
     '''sends user the button message provided via input response parameter'''
-    bot.send_button_message(recipient_id,response,buttons)
+    Bot.send_button_message(recipient_id,response,buttons)
     return "success"
 
 def process_message(text):
