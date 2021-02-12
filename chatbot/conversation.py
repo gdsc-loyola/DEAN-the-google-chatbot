@@ -1,6 +1,6 @@
 from chatbot.pymessenger_updated import Bot
 from chatbot.scraper import timeout, get_request, scraper, links, push
-from flask import request
+from flask import Flask, request
 import re
 import pickle
 import os
