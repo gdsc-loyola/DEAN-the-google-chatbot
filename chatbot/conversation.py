@@ -24,6 +24,33 @@ def process_message(text):
 
     return answer
 
+def evaluate(message):
+    status = ""
+
+    #If POST request is a message
+    if message.get("message"):
+        if message["message"].get("text"):
+            text = message['message'].get('text').strip()
+            string = text.lstrip().split(' ',1)
+
+            #Checks for valid searches
+            if string[0] == "search" and len(string) >= 2:
+                status = "valid"
+            else:
+                status = "invalid"
+        elif message["message"].get("attachment"):
+            status = "attachment"
+            
+    #If POST request is a postback
+    elif message.get("postback"):
+        if message["postback"].get("title"):
+            if message["postback"]["title"] == "Get Started":
+                status = "get started"
+            elif message["postback"]["title"] == "Read":
+                status = "read"
+            elif message["postback"]["title"] == "Read more":
+                status = "read more"
+
 def process_media(media):
     '''How do you process a picture/video lol'''
     pass
