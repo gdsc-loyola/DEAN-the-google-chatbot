@@ -1,10 +1,21 @@
 from chatbot.pymessenger_updated import Bot
 from chatbot.scraper import timeout, get_request, scraper, links, push
-from chatbot.chatbot import send_message, button_message
 from flask import request
 import re
 import pickle
 import os
+
+#uses PyMessenger to send response to user
+def send_message(recipient_id, response):
+    '''sends user the text message provided via input response parameter'''
+    bot.send_text_message(recipient_id, response)
+    return "success"    
+
+#uses PyMessenger to send message with button to user
+def button_message(recipient_id,response,buttons):
+    '''sends user the button message provided via input response parameter'''
+    bot.send_button_message(recipient_id,response,buttons)
+    return "success"
 
 def process_message(text):
     '''Understand what they said'''

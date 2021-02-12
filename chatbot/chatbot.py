@@ -42,13 +42,7 @@ def verify_fb_token(token_sent):
     #if they match, allow the request, else return an error 
     if token_sent == VERIFY_TOKEN:
         return request.args.get("hub.challenge")
-    return 'Invalid verification token'
-
-#uses PyMessenger to send response to user
-def send_message(recipient_id, response):
-    '''sends user the text message provided via input response parameter'''
-    bot.send_text_message(recipient_id, response)
-    return "success"    
+    return 'Invalid verification token'    
 
 #uses PyMessenger to send message with button to user
 def button_message(recipient_id,response,buttons):
