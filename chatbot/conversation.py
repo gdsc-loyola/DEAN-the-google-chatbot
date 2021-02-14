@@ -52,6 +52,7 @@ def evaluate(message):
                 status = "read more"
             elif message["postback"]["title"] == "Search more":
                 status = "search more"
+    return status
 
 def process_media(media):
     '''How do you process a picture/video lol'''
