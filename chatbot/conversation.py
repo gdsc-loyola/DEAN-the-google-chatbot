@@ -34,7 +34,7 @@ def evaluate(message):
             string = text.lstrip().split(' ',1)
 
             #Checks for valid searches
-            if string[0] == "search" and len(string) >= 2:
+            if string[0].lower() == "search" and len(string) >= 2:
                 status = "valid"
             else:
                 status = "invalid"

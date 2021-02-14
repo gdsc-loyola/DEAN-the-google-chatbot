@@ -131,7 +131,7 @@ def receive_message():
         #If user wants to browse more articles
         elif evaluate(message) == "search more":
             send_message(recipient_id, "Searching for more articles please wait a moment")
-            articles = search_more(string[1], articles)
+            articles = search_more(string[1])
 
             df.pop(recipient_id, None)
             with open('df.pickle', 'wb') as x:
@@ -152,7 +152,6 @@ def receive_message():
                             ]
                 #Send the title and summary of the article
                 button_message(recipient_id,articles[i]['title'][0:350],buttons)
-
 
         #If user wants to read a specific article
         elif evaluate(message) == "read":
