@@ -133,3 +133,15 @@ def push(results:list):
             if len(new_list) == number_of_results:
                 return new_list
     return new_list
+
+def search_more(query, prev_articles):
+    '''
+    title_list = []
+    for i in range(0, len(prev_articles)):
+        title_list.append(prev_articles[i][titles])
+    '''
+    
+    new_links = search(query, start=5, num=10, stop=10, pause=2)
+    return push(new_links)
+
+    

@@ -98,6 +98,14 @@ def receive_message():
                                     ]
                         #Send the title and summary of the article
                         button_message(recipient_id,articles[i]['title'][0:350],buttons)
+                    search_more = [
+                        {
+                            "type":"postback",
+                            "title":"Search more",
+                            "payload":"Search more"
+                        }
+                    ]
+                    button_message(recipient_id, "Search for more articles!", buttons)
                     return "Messaged Processed"
 
         #If search is invalid
@@ -119,7 +127,25 @@ def receive_message():
         #If user clicked the get started button
         elif evaluate(message) == "get started":
             send_message(recipient_id, "Hey, I'm Dean! I allow Filipinos to access Google Search at no cost. This app runs purely on Free Facebook Data.\n\nIf you want to get started, just ask me a question! Make sure you write 'search' before your query. I'm excited to learn with you!\n\nI hope that you continue to stay safe! :)")
+        
+        #If user wants to browse more articles
+        elif evaluate(message) == "search more":
+            send_message(recipient_id, "Searching for more articles please wait a moment")
+            articles = search_more(string[1], articles)
             
+            for i in range(1,len(articles)):
+                #Send a button allowing them to read more of the article
+                buttons = [
+                                {
+                                    "type":"postback",
+                                    "title":"Read",
+                                    "payload": i
+                                }
+                            ]
+                #Send the title and summary of the article
+                button_message(recipient_id,articles[i]['title'][0:350],buttons)
+
+
         #If user wants to read a specific article
         elif evaluate(message) == "read":
             #retrieve choice from postback
