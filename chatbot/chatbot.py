@@ -188,6 +188,8 @@ def receive_message():
 
         #If user wants to read more of the article
         elif evaluate(message) == 'read more':
+            choice = int(message["postback"]["payload"])
+
             buttons = [
                             {
                                 "type":"postback",
