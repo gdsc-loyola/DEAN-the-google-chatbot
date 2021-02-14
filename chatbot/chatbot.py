@@ -55,8 +55,6 @@ def receive_message():
         #Facebook Messenger ID for user so we know where to send response back to
         recipient_id = str(message['sender']['id'])
         message_dict[recipient_id] = message
-        #retrieve choice from postback
-        choice = int(message['postback']['payload'])
 
         #If search is valid
         if evaluate(message) == "valid":
@@ -158,6 +156,9 @@ def receive_message():
 
         #If user wants to read a specific article
         elif evaluate(message) == "read":
+            #retrieve choice from postback
+            choice = int(message['postback']['payload'])
+
             #update df with new choice
             df[recipient_id][0] = choice
 
