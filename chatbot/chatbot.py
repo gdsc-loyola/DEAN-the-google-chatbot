@@ -105,7 +105,7 @@ def receive_message():
                             "payload":"Search more"
                         }
                     ]
-                    button_message(recipient_id, "Search for more articles!", buttons)
+                    button_message(recipient_id, "", search_more)
                     return "Messaged Processed"
 
         #If search is invalid
@@ -132,7 +132,7 @@ def receive_message():
         elif evaluate(message) == "search more":
             send_message(recipient_id, "Searching for more articles please wait a moment")
             articles = search_more(string[1], articles)
-            
+
             for i in range(1,len(articles)):
                 #Send a button allowing them to read more of the article
                 buttons = [
