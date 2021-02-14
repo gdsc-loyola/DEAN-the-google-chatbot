@@ -105,7 +105,7 @@ def receive_message():
                             "payload":"Search more"
                         }
                     ]
-                    button_message(recipient_id, "", search_more)
+                    button_message(recipient_id, "Search more articles!", search_more)
                     return "Messaged Processed"
 
         #If search is invalid
@@ -132,6 +132,14 @@ def receive_message():
         elif evaluate(message) == "search more":
             send_message(recipient_id, "Searching for more articles please wait a moment")
             articles = search_more(string[1], articles)
+
+            df.pop(recipient_id, None)
+            with open('df.pickle', 'wb') as x:
+                pickle.dump(df, x, protocol=pickle.HIGHEST_PROTOCOL)
+            articles.insert(0,1)
+            df[recipient_id] = articles
+            with open('df.pickle', 'wb') as z:
+                pickle.dump(df, z, protocol = pickle.HIGHEST_PROTOCOL)
 
             for i in range(1,len(articles)):
                 #Send a button allowing them to read more of the article
