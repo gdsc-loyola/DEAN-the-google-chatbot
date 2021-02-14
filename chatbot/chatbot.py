@@ -110,7 +110,7 @@ def receive_message():
 
         #If search is invalid
         elif evaluate(message) == "invalid":
-            answer = process_message(text)
+            answer = process_message(message['message'].get('text').strip())
             if answer:
                 send_message(recipient_id, answer)
             else:
