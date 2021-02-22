@@ -21,7 +21,15 @@ def process_message(text):
     elif text == 'read more':
         answer = "I'm sorry I did not understand that. Please click the read more button rather than typing it. :)"
         return answer
-
+    elif text == 'ajma':
+        answer = "Need more time to decide on which Pool to join? 🤔 Good news! The application period for Training Pools Phase 2 has been extended. Join our learning community and develop your skills with us. The extended deadline for applications is on February 25, 2021 (Thursday), at 11:59PM. Apply while slots last: tinyurl.com/TrainingPoolsPhase2 Read through the primer here: tinyurl.com/TrainingPools2021Primer We can’t wait to learn with you! 🤗"
+        return answer
+    elif text == 'red':
+        answer = "If you're interested in learning more about marketing, please react to this comment as well, so we can add you to a group chat for mkt lectures <3 c/o the champ Red Nadela"
+        return answer
+    elif text == 'sv':
+        answer = "Find your connection this Valentine’s Day in AJMA Secret Valentine’s Speed Dating Event on February 14, 2021, at 8:30PM via Zoom.\nEveryone is invited to join us as we celebrate Heart’s Day together <3\nZoom link: https://tinyurl.com/AJMASecretValentineSpeedDating"
+        return answer
     return answer
 
 def process_media(media):
