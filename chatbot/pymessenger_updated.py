@@ -367,3 +367,34 @@ class Bot:
             )
             result = response.json()
             return result
+    
+    def send_list_message(self, recipient_id, text, list_items,
+                          notification_type=NotificationType.regular):
+        """
+        Send list message
+        https://developers.facebook.com/docs/messenger-platform/send-messages/template/list/
+        """
+
+        return self.send_generic_message(recipient_id,
+                                         list_items, notification_type)
+
+    def send_quick_replies(self, recipient_id, message, quick_replies,
+                           notification_type=NotificationType.regular):
+        """Send a quick reply to the specified recipient wi
+        th specific type of quick reply.
+        https://developers.facebook.com/docs/messenger-p
+        latform/reference/send-api/quick-replies/
+        Input:
+            recipient_id: recipient id to send to
+            text: Text to ask for something
+            type: content_type. eg: text, user_phone_number, user_email
+            title: Title of quick reply
+            payload: Postback payload
+            img_url: Icon URL for quick Reply suggestion
+        Output:
+            Response from API as <dict>
+        """
+        return self.send_message(recipient_id, {
+            "text": message,
+            "quick_replies": quick_replies
+        }, notification_type)
