@@ -1,1 +1,6 @@
+#Flask
+__pycache__/
+
+#Environment
 .env
+dean/
