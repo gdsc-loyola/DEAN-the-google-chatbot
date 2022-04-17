@@ -113,20 +113,18 @@ def links(keyword:str):
     """
     results = []
 
-    global status
-
     last_keyword = ""
     counter = 1
 
     start = 0
     stop = 10
 
-    if os.path.isfile('last_search.pkl'):
-        with open('last_search.pkl', 'rb') as fi:
+    if os.path.isfile('last_search.pickle'):
+        with open('last_search.pickle', 'rb') as fi:
             last_keyword = pickle.load(fi)
 
-    if os.path.isfile('counter.pkl'):
-        with open('counter.pkl', 'rb') as ci:
+    if os.path.isfile('counter.pickle'):
+        with open('counter.pickle', 'rb') as ci:
             counter = pickle.load(ci)
             
     if keyword != last_keyword:
@@ -157,12 +155,12 @@ def links(keyword:str):
     counter += 1
     last_keyword = keyword
 
-    with open('last_search.pkl', 'wb') as fi:
+    with open('last_search.pickle', 'wb') as fi:
     # dumps last_search string into the file
         pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
     fi.close()
 
-    with open('counter.pkl', 'wb') as ci:
+    with open('counter.pickle', 'wb') as ci:
     # dump counter value into the file
         pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
     ci.close()
