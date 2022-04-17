@@ -1,23 +1,15 @@
 import concurrent.futures
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 from flask import request
 import requests
 from threading import Thread
 from googlesearch import search
 import lxml
 import functools
-import re
-import pickle
-import os.path
-# from urllib.error import HTTPError
-# import cchardet as chardet
-# import timeit
-# import httpx
-# import asyncio
 
-number_of_results = 5 #Number of searches to send
-count = 80 
 headers = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
+number_of_results = 5 #Number of searches to send
+count = 80 #Word count per message
 
 def timeout(seconds_before_timeout):
     """
@@ -53,19 +45,17 @@ def get_request(url):
     Gets the website and scrapes it using BeautifulSoup
     """
     try:
-        requests_session = requests.Session()
-        page = requests_session.get(url, headers = headers, timeout=10)
-        # page = requests.get(url, headers = headers,timeout=10) #original
+        page = requests.get(url, headers = headers,timeout=10)
         if page.status_code != 200:
         #Page not loaded, go to the next URL
             return
     except:
         print('Link timed out')
         return
-
-    # soup = BeautifulSoup(page.content,'lxml') #original
-    soup = BeautifulSoup(page.text, 'lxml', parse_only=SoupStrainer(re.compile(r'(title|p)')))
+    
+    soup = BeautifulSoup(page.content,'lxml')
     return soup
+    
 
 def scraper(url:str):
     """
@@ -82,12 +72,11 @@ def scraper(url:str):
         soup = get_request(url)
     except:
         return
-
+    
     #Timeout decorator somewhere here (end)
     
-    
     try:
-        uid = soup.find(re.compile(r'(title)')).get_text()
+        uid = soup.find_all('title')[0].text.strip()
         title = uid + "\n(Link: " + url + " )\n---\n"
          
     except:
@@ -112,61 +101,18 @@ def links(keyword:str):
     Retrieves the links from the search results.
     """
     results = []
-
-    last_keyword = ""
-    counter = 1
-
-    start = 1
-    stop = 10
-
-    if os.path.isfile('last_search.pickle'):
-        with open('last_search.pickle', 'rb') as fi:
-            last_keyword = pickle.load(fi)
-
-    if os.path.isfile('counter.pickle'):
-        with open('counter.pickle', 'rb') as ci:
-            counter = pickle.load(ci)
-            
-    if keyword != last_keyword:
-        counter = 1
-
-    elif keyword == last_keyword:
-        stop = 10 * counter
-        start = stop - 10
-
-    for j in search(keyword, num=20, start=start, stop=stop, pause=2):
-        if j not in results:
-            results.append(j)
-        
-    # try:
-    #     links = search(keyword, num=num, start=start, stop=stop, pause=pause)
-    # except HTTPError:
-    #     try:
-    #         time.sleep(5)
-    #         links = search(keyword, num=num, start=num, stop=stop, pause=pause)
-    #     except:
-    #         return
-
+    links = search(keyword, num=10, stop=10, pause=2)
+    
     #If the search yielded no results
     if not links:
         #The chatbot tells the person to refine their search
         return
     
-    counter += 1
-    last_keyword = keyword
-
-    with open('last_search.pickle', 'wb') as fi:
-    # dumps last_search string into the file
-        pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
-    fi.close()
-
-    with open('counter.pickle', 'wb') as ci:
-    # dump counter value into the file
-        pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
-    ci.close()
-
+    #Remove duplicate links
+    [results.append(link) for link in links if link not in results]
+    
     return results
-
+    
 def push(results:list):
     
     """
@@ -187,7 +133,3 @@ def push(results:list):
             if len(new_list) == number_of_results:
                 return new_list
     return new_list
-
-## put export pickles under 'if keyword != last_keyword:'
-## put load pickles at the top
-## put counter and last_keyword at the same pickle file
