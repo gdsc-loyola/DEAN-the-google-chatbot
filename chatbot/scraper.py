@@ -116,7 +116,7 @@ def links(keyword:str):
     last_keyword = ""
     counter = 1
 
-    start = 0
+    start = 1
     stop = 10
 
     if os.path.isfile('last_search.pickle'):
