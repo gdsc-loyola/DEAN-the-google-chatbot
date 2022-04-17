@@ -101,72 +101,16 @@ def links(keyword:str):
     Retrieves the links from the search results.
     """
     results = []
-<<<<<<< HEAD
     links = search(keyword, num=10, stop=10, pause=2)
     
-=======
-
-    global status
-
-    last_keyword = ""
-    counter = 1
-
-    start = 0
-    stop = 0
-
-    if os.path.isfile('last_search'):
-        with open('last_search', 'rb') as fi:
-            last_keyword = pickle.load(fi)
-
-    if os.path.isfile('counter'):
-        with open('counter', 'rb') as ci:
-            counter = pickle.load(ci)
-            
-    if keyword != last_keyword:
-        counter = 1
-
-    elif keyword == last_keyword:
-        stop = 10 * counter
-        start = stop - 10
-
-    for j in search(keyword, num=20, start=start, stop=stop, pause=2):
-        if j not in results:
-            results.append(j)
-        
-    # try:
-    #     links = search(keyword, num=num, start=start, stop=stop, pause=pause)
-    # except HTTPError:
-    #     try:
-    #         time.sleep(5)
-    #         links = search(keyword, num=num, start=num, stop=stop, pause=pause)
-    #     except:
-    #         return
-
->>>>>>> parent of 325b435 (unli-search test 2)
     #If the search yielded no results
     if not links:
         #The chatbot tells the person to refine their search
         return
     
-<<<<<<< HEAD
     #Remove duplicate links
     [results.append(link) for link in links if link not in results]
     
-=======
-    counter += 1
-    last_keyword = keyword
-
-    with open('last_search', 'wb') as fi:
-    # dumps last_search string into the file
-        pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
-    fi.close()
-
-    with open('counter', 'wb') as ci:
-    # dump counter value into the file
-        pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
-    ci.close()
-
->>>>>>> parent of 325b435 (unli-search test 2)
     return results
     
 def push(results:list):
