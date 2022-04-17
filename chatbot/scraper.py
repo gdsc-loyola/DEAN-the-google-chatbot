@@ -124,28 +124,17 @@ def links(keyword:str):
     if os.path.isfile('last_search.pkl'):
         with open('last_search.pkl', 'rb') as fi:
             last_keyword = pickle.load(fi)
+
+    if os.path.isfile('counter.pkl'):
+        with open('counter.pkl', 'rb') as ci:
+            counter = pickle.load(ci)
             
     if keyword != last_keyword:
-        last_keyword = keyword
-        with open('last_search.pkl', 'wb') as fi:
-        # dumps last_search string into the file
-            pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
-        fi.close()
+        counter = 1
 
     elif keyword == last_keyword:
-        if os.path.isfile('counter.pkl'):
-            with open('counter.pkl', 'rb') as ci:
-                counter = pickle.load(ci)
-        
         stop = 10 * counter
         start = stop - 10
-        
-        counter += 1
-
-        with open('counter.pkl', 'wb') as ci:
-        # dump counter value into the file
-            pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
-        ci.close()
 
     for j in search(keyword, num=20, start=start, stop=stop, pause=2):
         if j not in results:
@@ -165,18 +154,18 @@ def links(keyword:str):
         #The chatbot tells the person to refine their search
         return
     
-    # counter += 1
-    # last_keyword = keyword
+    counter += 1
+    last_keyword = keyword
 
-    # with open('last_search', 'wb') as fi:
-    # # dumps last_search string into the file
-    #     pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
-    # fi.close()
+    with open('last_search.pkl', 'wb') as fi:
+    # dumps last_search string into the file
+        pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
+    fi.close()
 
-    # with open('counter', 'wb') as ci:
-    # # dump counter value into the file
-    #     pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
-    # ci.close()
+    with open('counter.pkl', 'wb') as ci:
+    # dump counter value into the file
+        pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
+    ci.close()
 
     return results
 
@@ -200,3 +189,7 @@ def push(results:list):
             if len(new_list) == number_of_results:
                 return new_list
     return new_list
+
+## put export pickles under 'if keyword != last_keyword:'
+## put load pickles at the top
+## put counter and last_keyword at the same pickle file
