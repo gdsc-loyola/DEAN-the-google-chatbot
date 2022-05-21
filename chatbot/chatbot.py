@@ -103,7 +103,7 @@ def receive_message():
                                                 }
                                             ]
                                 #Send the title and summary of the article
-                                button_message(recipient_id,articles[i]['title'][0:350],buttons)
+                                button_message(recipient_id,articles[i]['title'],buttons)
                             
                         else:
                             send_message(recipient_id,'''I couldn't find anything on that, could you try making your search more specific? It would help if you asked a question! (Ex. "Who is the President of the Philippines?)''')

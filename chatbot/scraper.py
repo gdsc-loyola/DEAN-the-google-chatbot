@@ -9,14 +9,9 @@ import functools
 import re
 import pickle
 import os.path
-# from urllib.error import HTTPError
-# import cchardet as chardet
-# import timeit
-# import httpx
-# import asyncio
 
 number_of_results = 5 #Number of searches to send
-count = 80 
+count = 80 #Word count per message
 headers = {"User-Agent": "Mozilla/5.0 (X11; CrOS x86_64 12871.102.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.141 Safari/537.36"}
 
 def timeout(seconds_before_timeout):
@@ -102,7 +97,16 @@ def scraper(url:str):
         #Page not loaded, go to the next URL
         return
 
-    my_dict = {'uid':uid,'title':title + ''' ''' + article[0][0:450],'article':article}
+    if '.' in article[0]:
+        first_sentence = article[0].split('.')[0] + '.'
+        second_sentence = article[0].split('.')[1] + '.'
+        description = first_sentence + second_sentence
+        if len(description) >= 350:
+            description = first_sentence 
+    else:
+        description = article[0][0:350] + '...'
+
+    my_dict = {'uid':uid,'title':title + ''' ''' + description, 'article':article}
 
     return my_dict
 
@@ -123,29 +127,21 @@ def links(keyword:str):
         with open('last_search.pickle', 'rb') as fi:
             last_keyword = pickle.load(fi)
 
-    if os.path.isfile('counter.pickle'):
-        with open('counter.pickle', 'rb') as ci:
-            counter = pickle.load(ci)
-            
-    if keyword != last_keyword:
+    #If user enters a different keyword, unli-search stops
+    if keyword != last_keyword: 
         counter = 1
 
+    #If user enters the same keyword, unli-search beings/continues by changing the start and stop values of the search function
     elif keyword == last_keyword:
+        if os.path.isfile('counter.pickle'):
+            with open('counter.pickle', 'rb') as ci:
+                counter = pickle.load(ci)
         stop = 10 * counter
-        start = stop - 10
+        start = (stop - 10) + 1
 
     for j in search(keyword, num=20, start=start, stop=stop, pause=2):
         if j not in results:
             results.append(j)
-        
-    # try:
-    #     links = search(keyword, num=num, start=start, stop=stop, pause=pause)
-    # except HTTPError:
-    #     try:
-    #         time.sleep(5)
-    #         links = search(keyword, num=num, start=num, stop=stop, pause=pause)
-    #     except:
-    #         return
 
     #If the search yielded no results
     if not links:
@@ -158,12 +154,10 @@ def links(keyword:str):
     with open('last_search.pickle', 'wb') as fi:
     # dumps last_search string into the file
         pickle.dump(last_keyword, fi, pickle.HIGHEST_PROTOCOL)
-    fi.close()
 
     with open('counter.pickle', 'wb') as ci:
     # dump counter value into the file
         pickle.dump(counter, ci, pickle.HIGHEST_PROTOCOL)
-    ci.close()
 
     return results
 
