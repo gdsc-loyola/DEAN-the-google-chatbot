@@ -99,10 +99,11 @@ def scraper(url:str):
 
     if '.' in article[0]:
         first_sentence = article[0].split('.')[0] + '.'
-        second_sentence = article[0].split('.')[1] + '.'
-        description = first_sentence + second_sentence
-        if len(description) >= 350:
-            description = first_sentence 
+        description = first_sentence
+        # second_sentence = article[0].split('.')[1] + '.'
+        # description = first_sentence + second_sentence
+        # if len(description) >= 350:
+        #     description = first_sentence 
     else:
         description = article[0][0:350] + '...'
 
