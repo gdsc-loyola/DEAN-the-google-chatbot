@@ -54,7 +54,8 @@ def receive_message():
 
         return verify_fb_token(token_sent)
     
-    #if the request was not get, it must be POST and we can just proceed with sending a message back to user
+    # if the request was not get, it must be POST and we can just proceed with sending a message back to user
+    # Bryan: do we really need to load df.pickle every after message?
     if os.path.exists('df.pickle'):
         with open('df.pickle', 'rb') as x:
             df = pickle.load(x)
@@ -85,11 +86,11 @@ def receive_message():
                 #Stops message spam
                 with open('message.pickle', 'rb') as x:
                     previous_message = pickle.load(x)
-                    check_message = previous_message
+                    check_message = previous_message  # Bryan: This copies the whole data from pickle. could be more space-efficient?
 
                 #Store recipient ID in previous message
                 if check_message.get(recipient_id):
-                    pass
+                    pass            # Bryan: this could be cleaner. pass is unnecessary
                 else:
                     initial_message[recipient_id] = {}
                     previous_message = initial_message
@@ -141,7 +142,6 @@ def receive_message():
         #if user sends us a GIF, photo,video, or any other non-text item
         if message['message'].get('attachments'):
             #process_media(message['message'].get('attachments'))
-            send_message(recipient_id, "I can only process text messages. I apologize for the inconvenience.")
             pass
             return "Messaged Processed"
     #If user clicked one of the postback buttons
@@ -254,4 +254,8 @@ def feedback(recipient_id):
                     ]
         button_message(recipient_id,message,buttons)
     return "success"
+
+def searchbot():
+    '''Search from Google based on recipient's message. Created for cleaner code and to record search time.'''
+
 
