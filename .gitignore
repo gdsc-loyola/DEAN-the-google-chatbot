@@ -7,3 +7,5 @@ dean/
 /venv/
 
 *.pickle
+.google-cookie
+test-time.txt
