@@ -90,7 +90,7 @@ def receive_message():
 
                 #Store recipient ID in previous message
                 if check_message.get(recipient_id):
-                    pass            # Bryan: this could be cleaner. pass is unnecessary
+                    pass
                 else:
                     initial_message[recipient_id] = {}
                     previous_message = initial_message
@@ -254,8 +254,5 @@ def feedback(recipient_id):
                     ]
         button_message(recipient_id,message,buttons)
     return "success"
-
-def searchbot():
-    '''Search from Google based on recipient's message. Created for cleaner code and to record search time.'''
 
 
