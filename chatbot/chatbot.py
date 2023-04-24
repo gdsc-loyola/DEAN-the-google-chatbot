@@ -21,6 +21,18 @@ df = {}
 message_dict = {}
 initial_message = {}
 
+def timer(func):
+    '''Print the Runtime of the decorated function'''
+    @functools.wraps(func)
+    def wrapper_timer(*args,**kwargs):
+        start_time = time.perf_counter()
+        value = func(*args,**kwargs)
+        end_time = time.perf_counter()
+        run_time = end_time - start_time
+        print(f"Finished {func.__name__!r} in {run_time:.4f} secs")
+        return value
+    return wrapper_timer
+
 #We will receive messages that Facebook sends our bot at this endpoint 
 @app.route("/", methods=['GET', 'POST'])
 def receive_message():
@@ -78,10 +90,10 @@ def receive_message():
 
                     print('previous message: ', previous_message[recipient_id])
                     print('message: ', message)
-                    if message == previous_message[recipient_id]:
-                        print('STOP FUNCTION BEFORE IT SPAMS')
+                    if text == previous_message[recipient_id]['message'].get('text').strip():
+                        send_message(recipient_id, "You've repeated your previous message. DEAN hates spam!")
                         return 'message processed'
-                    else: 
+                    else:
                         send_message(recipient_id,"Thank you for your search! Let me see what I can find. :)")
                         articles = push(links(string[1]))
                         if articles:
@@ -231,15 +243,3 @@ def feedback(recipient_id):
                     ]
         button_message(recipient_id,message,buttons)
     return "success"
-
-def timer(func):
-    '''Print the Runtime of the decorated function'''
-    @functools.wraps(func)
-    def wrapper_timer(*args,**kwargs):
-        start_time = time.perf_counter()
-        value = func(*args,**kwargs)
-        end_time = time.perf_counter()
-        run_time = end_time - start_time
-        print(f"Finished {func.__name__!r} in {run_time:.4f} secs")
-        return value
-    return wrapper_timer

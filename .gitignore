@@ -7,3 +7,4 @@ dean/
 /venv/
 
 *.pickle
+.google-cookie
